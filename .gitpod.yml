@@ -2,17 +2,22 @@
 
 # .gitpod.yml
 image:
-  file: .gitpod/workspace-full:latest 
+  file: .gitpod/workspace-full:latest
 
-task:
-  name: "Install AWS CLI" 
-  before: 
-    - echo "Starting AWS-SAA-C03 setup..."
-    - curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
-  init:
-    - echo "Setting up AWS-SAA-C03 environment..."
-    - sudo apt-get update && sudo apt-get install -y awscli
-    - aws --version
-    - echo "AWS-SAA-C03 environment is ready!"
-    - curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
+tasks:
+  - name: "AWS-SAA-C03 Setup"
+    init:
+      - echo "Setting up AWS-SAA-C03 environment..."
+      - sudo apt-get update && sudo apt-get install -y awscli gnupg software-properties-common curl
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      - sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - sudo apt-get update && sudo apt-get install -y terraform
+      - aws --version
+      - terraform --version
+    command:
+      - echo "AWS-SAA-C03 environment is ready!"
 
+ports:
+  - name: "AWS-SAA-C03 Web Preview"
+    port: 8080
+    onOpen: open-preview
