@@ -1,0 +1,18 @@
+## gitpod initiation and setup file for AWS-SAA-C03
+
+# .gitpod.yml
+image:
+  file: .gitpod/workspace-full:latest 
+
+task:
+  name: "Install AWS CLI" 
+  before: 
+    - echo "Starting AWS-SAA-C03 setup..."
+    - curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
+  init:
+    - echo "Setting up AWS-SAA-C03 environment..."
+    - sudo apt-get update && sudo apt-get install -y awscli
+    - aws --version
+    - echo "AWS-SAA-C03 environment is ready!"
+    - curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
+
